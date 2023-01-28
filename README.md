@@ -27,7 +27,7 @@ Setup/Use:
   <li>Download Repo</li>
   <li>Unzip folder</li>
   <li>Copy and paste the <code>src</code> folder into application. Note: you will want to rename it to something other than <code>src</code></li>
-  <li>Whenrever you need to use the file manager call it with `<FileManager />`</li>
+  <li>Whenrever you need to use the file manager call it with the <code>FileManager</code> tag</li>
 </ol>
 
 Based on [React File Manager](https://github.com/dailykit/react-file-manager/issues)
