@@ -10,7 +10,7 @@ A simple file manager built with react that can be dropped in. Built/Tested with
 
 Current Supported Actions:
 <ul>
-</ul
+</ul>
 
 TODO:
 <ul>
@@ -21,5 +21,13 @@ TODO:
 <li>Add Paste</li>
 <li>Add Drag n Drop</li>
 </ul>
+
+Setup/Use:
+<ol>
+  <li>Download Repo</li>
+  <li>Unzip folder</li>
+  <li>Copy and paste the <code>src</code> folder into application. Note: you will want to rename it to something other than <code>src</code></li>
+  <li>Whenrever you need to use the file manager call it with `<FileManager />`</li>
+</ol>
 
 Based on [React File Manager](https://github.com/dailykit/react-file-manager/issues)
