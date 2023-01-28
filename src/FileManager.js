@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const XDriveView = () => {
+const FileManager = () => {
     const [state, dispatch] = React.useReducer(reducers, initialState)
     return (
         <ToastProvider placement="bottom-right" components={{ToastContainer}} autoDismissTimeout={2000}>
@@ -59,7 +59,7 @@ const XDriveView = () => {
     )
 }
 
-export default XDriveView
+export default FileManager
 
 const FileManagerDiv = styled.div(
     ({isSidebarVisible}) => css`
