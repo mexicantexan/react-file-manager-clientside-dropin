@@ -1,5 +1,8 @@
 Based on [React File Manager](https://github.com/dailykit/react-file-manager/issues)
 
+If you find this helpful, please [please buy me a coffee](https://www.buymeacoffee.com/jdallasw) :) 
+
+
 ### File Manager - ReactJs
 
 Status - Under Construction 🚧  
