@@ -1,5 +1,3 @@
-Based on [React File Manager](https://github.com/dailykit/react-file-manager/issues)
-
 If you find this helpful, please [please buy me a coffee](https://www.buymeacoffee.com/jdallasw) :) 
 
 
@@ -15,3 +13,5 @@ TODO:
 <li>add in dummy calls to backend</li>
 <li>test</li>
 </ul>
+
+Based on [React File Manager](https://github.com/dailykit/react-file-manager/issues)
