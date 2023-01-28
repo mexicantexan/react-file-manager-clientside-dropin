@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 
 export const Parent = styled.ul`
 	height: auto;
+	padding-left: 6px;
 `
 
 export const Node = styled.ul(
@@ -13,7 +14,7 @@ export const Node = styled.ul(
 		border-radius: 4px 0 0 4px;
 		cursor: pointer;
 		font-size: 14px;
-		padding: 0 12px;
+		padding: 0 8px;
 		background: transparent;
 		color: ${isOpen ? '#000' : '#9ca2a7'};
 		border-right: ${isOpen ? '3px solid #69A1F6' : '3px solid transparent'};
@@ -40,5 +41,5 @@ export const Icon = styled.i(
 
 export const Children = styled.li`
 	list-style: none;
-	padding-left: 16px;
+	padding-left: 4px;
 `

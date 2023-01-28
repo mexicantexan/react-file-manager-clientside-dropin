@@ -7,7 +7,14 @@ import Card from './Card'
 const Grid = ({ items }) => {
 	return (
 		<GridWrapper>
-			{items && items.map(item => <Card item={item} />)}
+			{items.folder && items.folder.map(item => {
+				const generateId = `table__row__menu${Math.random()}`
+				return <Card key={generateId} item={item} generatedId={generateId}/>})
+			}
+			{items.file && items.file.map(item => {
+				const generateId = `table__row__menu${Math.random()}`
+				return <Card key={generateId} item={item} generatedId={generateId}/>})
+			}
 		</GridWrapper>
 	)
 }

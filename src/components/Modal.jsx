@@ -10,7 +10,7 @@ const Header = ({ children }) => {
 const Body = ({children}) => {
 	return <BodyWrapper id="modal__card__body">{children}</BodyWrapper>
 }
-const Footer = (children) => {
+const Footer = ({children}) => {
 	return <FooterWrapper id="modal__card__footer">{children}</FooterWrapper>
 }
 

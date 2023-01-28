@@ -20,34 +20,49 @@ const Main = () => {
 		file: false,
 		folder: false,
 	})
-	const [queryData, setQueryData] = React.useState()
+	const [queryData, setQueryData] = React.useState(state.folderData.children)
 	const [queryLoading, setQueryLoading] = React.useState(true)
 	const [queryError, setQueryError] = React.useState(false)
-	const [currentFolder, _setCurrentFolder] = React.useState(state.currentFolder || '')
+	const [currentFolder, setCurrentFolder] = React.useState(undefined)
 	const prevCurrentFolder = usePrevious({currentFolder});
 
 	React.useEffect(() => {
-		if (state.currentFolder !== prevCurrentFolder) {
+		console.log('updating useEffect because:', state.currentFolder, currentFolder)
+		let temp_data
+		if (state.currentFolder !== currentFolder) {
+			//  updating because we changed paths
 			setQueryLoading(true)
-			let temp_data = GET_FOLDER(state, state.currentFolder)
+			temp_data = GET_FOLDER(state, state.currentFolder)
 			if (temp_data.error) {
 				setQueryError(true)
 			} else {
 				setQueryError(false)
-				setQueryLoading(false)
+				console.log('updating query data!')
 				setQueryData(temp_data)
 			}
+			setCurrentFolder(state.currentFolder)
+		} else if (state.updateRequired === true) {
+			//  we updated one of the sub folders, need to update our current view'
+			setQueryData(state.folderViewData)
+			temp_data = queryData
+			dispatch({
+				type: 'SET_UPDATE_REQUIRED',
+				payload: false
+			})
+		} else {
+			temp_data = queryData
 		}
 
-		if (queryData && queryData.children) {
-			const childrens = queryData.children.filter(
+		if (temp_data && temp_data.children) {
+			const childrens = temp_data.children.filter(
 				item => item.name.toLowerCase().includes(state.searchText)
 			)
 			dispatch({
 				type: 'SET_FOLDER_VIEW_DATA',
 				payload: {
-					name: queryData.name,
-					path: queryData.path,
+					updateRequired: false,
+					name: temp_data.name,
+					path: temp_data.path,
 					children: childrens.map(children => ({
 						...children,
 						path: children.path,
@@ -55,10 +70,11 @@ const Main = () => {
 				},
 			})
 		}
-	}, [state.currentFolder, state.searchText])
+		setQueryLoading(false)
+	}, [state.currentFolder, state.searchText, state.updateRequired])
 
 	let items = _.mapValues(
-		_.groupBy(state.folderData.children || [], 'type'),
+		_.groupBy(state.folderViewData.children || [], 'type'),
 		v => _.orderBy(v, [state.sortBy.column], [state.sortBy.order])
 	)
 
@@ -111,7 +127,7 @@ const Main = () => {
 					/>
 				)}
 				<h3>
-					This folder is empty. Start by creating a new folder or a
+					This folder is empty. Start by creating a new folder or uploading a
 					file
 				</h3>
 				<div>
@@ -123,7 +139,7 @@ const Main = () => {
 							}))
 						}
 					>
-						Create File
+						Upload File
 					</button>
 					<button
 						onClick={() =>

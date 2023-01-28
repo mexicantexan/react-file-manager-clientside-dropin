@@ -16,7 +16,6 @@ import {
 	DELETE_FILE,
 	RENAME_FILE,
 	RENAME_FOLDER,
-	OPEN_FILE,
 } from '../../../queries'
 
 // Helpers
@@ -28,7 +27,7 @@ import { FolderCloseIcon, FileText } from '../../../assets/Icon'
 // Styles
 import { CardWrapper, Thumb } from './styles'
 
-const Card = ({ item }) => {
+const Card = ({ item, generatedId }) => {
 	const { addToast } = useToasts()
 	const { state, dispatch } = React.useContext(Context)
 	const [folderName, setFolderName] = React.useState('')
@@ -39,14 +38,25 @@ const Card = ({ item }) => {
 		file: false,
 	})
 
-	const refetchOptions = {
-		query: GET_FOLDER,
-		variables: {
-			path: item.path
-				.split('/')
-				.slice(0, -1)
-				.join('/'),
-		},
+	const updateFolderState = (newState) => {
+		const newFolderState = GET_FOLDER(newState)
+		dispatch({
+			type: 'SET_FOLDER_VIEW_DATA',
+			payload: {
+				updateRequired: true,
+				name: newFolderState.name,
+				path: newFolderState.path,
+				children: newFolderState.children
+			},
+		})
+	}
+
+	const updateState = (newState) => {
+		dispatch({
+			type: 'SET_FOLDER_DATA',
+			payload: newState,
+		})
+		updateFolderState(state)
 	}
 
 	function renameFolder() {
@@ -76,13 +86,6 @@ const Card = ({ item }) => {
 		})
 	}
 
-	const updateState = (new_state) => {
-		dispatch({
-			type: 'SET_FOLDER_DATA',
-			payload: new_state,
-		})
-	}
-
 	function openFile() {
 		singleClick()
 	}
@@ -98,9 +101,18 @@ const Card = ({ item }) => {
 		})
 		dispatch({ type: 'TOGGLE_PREVIEW', payload: true })
 	}
+
+	const updateFileName = (input_event) => {
+		try {input_event.preventDefault()} catch (e) {}
+		let input_data = input_event.target.value
+		input_data = input_data.replace('/', '')
+		setFileName(input_data)
+		setFolderName(input_data)
+	}
+
 	const doubleClick = () => (item.type === 'file' ? openFile() : openFolder())
 
-	const CreatePopup = () => (
+	const CreatePopup = isCreateModalVisible.file || isCreateModalVisible.folder ? (
 		<Modal>
 			<Modal.Header>
 				{isCreateModalVisible.file ? 'Rename File' : 'Rename Folder'}
@@ -109,22 +121,26 @@ const Card = ({ item }) => {
 				<label htmlFor="rename__folder__input">
 					{isCreateModalVisible.file ? 'File Name' : 'Folder Name'}
 				</label>
-				<input
-					type="text"
-					name="createFolder"
-					id="rename__folder__input"
-					value={isCreateModalVisible.file ? fileName : folderName}
-					placeholder={
-						isCreateModalVisible.file
-							? 'Enter a file name'
-							: 'Enter a folder name'
-					}
-					onChange={e =>
-						isCreateModalVisible.file
-							? setFileName(e.target.value)
-							: setFolderName(e.target.value)
-					}
-				/>
+				{isCreateModalVisible.folder && (
+					<input
+						type="text"
+						name="renameFolder"
+						id="rename__folder__input"
+						value={folderName}
+						placeholder="Enter a folder name"
+						onChange={updateFileName}
+					/>
+				)}
+				{isCreateModalVisible.file && (
+					<input
+						type="text"
+						name="createFolder"
+						id="rename__folder__input"
+						value={fileName}
+						placeholder="Enter a file name"
+						onChange={updateFileName}
+					/>
+				)}
 			</Modal.Body>
 			<Modal.Footer>
 				<button
@@ -138,6 +154,7 @@ const Card = ({ item }) => {
 							folder: false,
 							file: false,
 						})
+						updateFileName('')
 					}}
 				>
 					{isCreateModalVisible.file
@@ -145,21 +162,22 @@ const Card = ({ item }) => {
 						: 'Rename Folder'}
 				</button>
 				<button
-					onClick={() =>
+					onClick={() => {
 						setCreateModalVisibility({
 							folder: false,
 							file: false,
 						})
-					}
+						updateFileName('')
+					}}
 				>
 					Cancel
 				</button>
 			</Modal.Footer>
 		</Modal>
-	)
-	const generateId = `table__row__menu${Math.random()}`
+	) : <div/>
+
 	const CardMenu = () => (
-		<ContextMenu id={generateId}>
+		<ContextMenu id={generatedId}>
 			{item.type === 'file' ? (
 				<MenuItem onClick={() => openFile()}>Open File</MenuItem>
 			) : (
@@ -193,9 +211,8 @@ const Card = ({ item }) => {
 
 	return (
 		<React.Fragment>
-			<ContextMenuTrigger id={generateId}>
-				{isCreateModalVisible.folder && <CreatePopup />}
-				{isCreateModalVisible.file && <CreatePopup />}
+			<ContextMenuTrigger id={generatedId}>
+				{CreatePopup}
 				<CardWrapper
 					onClick={() => callSingleClick(singleClick)}
 					onDoubleClick={() => callDoubleClick(doubleClick)}

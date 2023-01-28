@@ -14,14 +14,20 @@ import { ExpandIcon, CollapseIcon } from '../../assets/Icon'
 
 const Sidebar = () => {
 	const { state, dispatch } = React.useContext(Context)
+	const [collapseHover, setHover] = React.useState(false)
+
 	return (
 		<SidebarWrapper isSidebarVisible={state.isSidebarVisible}>
 			<SidebarActions>
-				<button onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}>
+				<button onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
+						onMouseEnter={() => setHover(true)}
+						onMouseLeave={() => setHover(false)}
+						onMouseDown={e => e.preventDefault()}
+				>
 					{state.isSidebarVisible ? (
-						<ExpandIcon color="#ababab" />
+						<ExpandIcon color={collapseHover === true ? "#ffffff" : "rgba(0,0,0,.35)"}/>
 					) : (
-						<CollapseIcon color="#ababab" />
+						<CollapseIcon color={collapseHover === true ? "#ffffff" : "rgba(0,0,0,.35)"} />
 					)}
 				</button>
 			</SidebarActions>

@@ -7,7 +7,6 @@ const GET_FOLDER = (curr_state, specified_path) => {
     if (specified_path) {
         specified_path = specified_path.split('/')
         path_segments = specified_path
-
     } else {
         // grab path segments from current state
         path_segments = curr_state.currentFolder.split('/')

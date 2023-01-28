@@ -33,7 +33,6 @@ export const Breadcrumbs = styled.div`
 		list-style: none;
 		cursor: pointer;
 		font-size: 14px;
-		text-transform: capitalize;
 		color: #9ca2a7;
 		&:nth-last-of-type(1) {
 			color: #000;
@@ -75,14 +74,16 @@ export const SwitchView = styled.div`
 	button {
 		height: 40px;
 		width: 40px;
-		background: transparent;
+		background: rgba(0,0,0,0);
 		border: none;
+		border-radius: 4px;
 		cursor: pointer;
 		&:last-child {
 			border-right: none;
 		}
 		&:hover {
-			background: rgba(#000, 0.05);
+			background-color: #3eb2ff;
+			border-radius: 50%;
 		}
 	}
 	@media (max-width: 567px) {

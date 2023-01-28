@@ -37,6 +37,9 @@ export const SidebarActions = styled.div`
 		background: transparent;
 		border: none;
 		cursor: pointer;
-		border-right: 1px solid var(--border);
+		&:hover {
+			background-color: #3eb2ff;
+			border-radius: 50%;
+		}
 	}
 `

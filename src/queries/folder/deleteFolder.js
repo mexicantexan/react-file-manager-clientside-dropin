@@ -5,12 +5,15 @@ import cleanPathSegments from "../general/cleanPathSegments";
 const DELETE_FOLDER = (curr_state, folder_to_delete, specified_path) => {
     let path_segments
     if (specified_path) {
-        specified_path = specified_path.split('/')
-        path_segments = specified_path
-
+        path_segments = specified_path.split('/')
     } else {
         // grab path segments from current state
         path_segments = curr_state.currentFolder.split('/')
+    }
+
+    if (path_segments.length > 0) {
+        //  reduce path segments to parent
+        path_segments.pop()
     }
 
     // clean path segments of leading spaces

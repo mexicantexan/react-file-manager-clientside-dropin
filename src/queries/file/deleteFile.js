@@ -12,6 +12,11 @@ const DELETE_FILE = (curr_state, file_to_delete, specified_path) => {
         path_segments = curr_state.currentFolder.split('/')
     }
 
+    if (specified_path.length > 0) {
+        //  reduce path segments to parent
+        specified_path.pop()
+    }
+
     // clean path segments of leading spaces
     path_segments = cleanPathSegments(path_segments)
 

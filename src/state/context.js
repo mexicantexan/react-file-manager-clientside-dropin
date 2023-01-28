@@ -8,6 +8,7 @@ const initialState = {
     searchText: '',
     previewData: {},
     folderViewData: {},
+    updateRequired: false,
     folderData: {
         name: '',
         path: '',
@@ -59,6 +60,7 @@ const reducers = (state, action) => {
         case 'SET_FOLDER_DATA':
             return {
                 ...state,
+                updateRequired: true,
                 folderData: {
                     name: action.payload.name,
                     path: action.payload.path,
@@ -68,7 +70,8 @@ const reducers = (state, action) => {
         case 'SET_FOLDER_VIEW_DATA':
             return {
                 ...state,
-                folderData: {
+                updateRequired: action.payload.updateRequired,
+                folderViewData: {
                     name: action.payload.name,
                     path: action.payload.path,
                     children: action.payload.children,
@@ -121,6 +124,11 @@ const reducers = (state, action) => {
             return {
                 ...state,
                 fileName: action.payload,
+            }
+        case 'SET_UPDATE_REQUIRED':
+            return {
+                ...state,
+                updateRequired: action.payload,
             }
         default:
             return state

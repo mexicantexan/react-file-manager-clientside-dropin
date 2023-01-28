@@ -10,11 +10,8 @@ const RENAME_FILE = (curr_state, new_file_name, specified_path) => {
 
     let curr_files = curr_state.folderData
 
-    // remove folder from state
-    curr_files = adjustDataFromSubFolder(curr_files, path_segments, new_file_name, 'name')
-
-    // return new proposed state
-    return curr_files
+    // rename file in state, then return result
+    return adjustDataFromSubFolder(curr_files, path_segments, new_file_name, 'name')
 }
 
 export default RENAME_FILE

@@ -46,6 +46,7 @@ const XDriveView = () => {
         <ToastProvider placement="bottom-right" components={{ToastContainer}} autoDismissTimeout={2000}>
             <Context.Provider value={{state, dispatch}}>
                 <GlobalStyle/>
+                <div id={"modal__container"}/>
                 <FileManagerDiv isSidebarVisible={state.isSidebarVisible}>
                     <React.Suspense fallback={<span>Loading...</span>}>
                         <Sidebar/>

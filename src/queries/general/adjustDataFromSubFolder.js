@@ -1,4 +1,5 @@
 import getChildIndex from "./getChildIndex";
+import adjustSubPaths from "./adjustSubPaths";
 
 export default function adjustDataFromSubFolder(obj, curr_path, val, dataType) {
     if (curr_path.length > 0) {
@@ -23,10 +24,17 @@ export default function adjustDataFromSubFolder(obj, curr_path, val, dataType) {
         if (dataType === 'name') {
             // adjust path as well since we are editing the name
             let curr_path = obj.path
+            let old_path = curr_path.split('/')
+            old_path = old_path.join('/')
+
             curr_path = curr_path.split('/')
             curr_path.pop()
             curr_path.push(val)
-            curr_path.join('/')
+            curr_path = curr_path.join('/')
+            obj.path = curr_path
+            console.log(obj.path)
+            // rename all sub paths
+            obj.children = adjustSubPaths(obj.children, old_path, curr_path, 'path')
         }
         obj.lastModified = Date.now()
     }
